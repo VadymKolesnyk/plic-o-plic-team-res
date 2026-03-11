@@ -1,0 +1,387 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  padding: 16px 0;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  letter-spacing: -0.5px;
+}
+
+.subtitle {
+  color: #666;
+  margin-top: 4px;
+  font-size: 1rem;
+}
+
+/* Dropzone */
+.dropzone {
+  border: 2px dashed #c0c8d8;
+  border-radius: 16px;
+  padding: 48px 24px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.dropzone:hover {
+  border-color: #4a6fa5;
+  background: #f5f8ff;
+}
+
+.dropzoneDragging {
+  border-color: #4a6fa5;
+  background: #eef3ff;
+}
+
+.dropzoneIcon {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.dropzoneText {
+  color: #555;
+  font-size: 1rem;
+}
+
+/* Error */
+.error {
+  background: #fff0f0;
+  border: 1px solid #ffbaba;
+  color: #c0392b;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 0.95rem;
+}
+
+/* File info */
+.fileInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 0.95rem;
+  color: #444;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+}
+
+.fileIcon {
+  font-size: 1.2rem;
+}
+
+.participantCount {
+  margin-left: auto;
+  background: #e8f0fe;
+  color: #3a5fa0;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 20px 24px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.08);
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin-bottom: 16px;
+}
+
+/* Groups grid */
+.groupsGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.groupItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-radius: 10px;
+  padding: 8px 12px;
+  border: 1.5px solid transparent;
+  transition: background 0.2s, border-color 0.2s;
+}
+
+.groupItemMale {
+  background: #eef3ff;
+  border-color: #b8ccf4;
+}
+
+.groupItemFemale {
+  background: #ffeef6;
+  border-color: #f4b8d8;
+}
+
+.groupGenderIcon {
+  font-size: 1rem;
+}
+
+.groupName {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #333;
+}
+
+/* Gender toggle */
+.genderToggle {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid #dde2ee;
+}
+
+.genderGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.genderRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.genderGroupName {
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.genderBtn {
+  padding: 6px 16px;
+  border: none;
+  background: #f0f2f5;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.15s, color 0.15s;
+  color: #555;
+}
+
+.genderBtn:hover {
+  background: #e0e5f0;
+}
+
+.genderBtnActive {
+  background: #3a6bc4;
+  color: #fff;
+  font-weight: 600;
+}
+
+.genderBtnActiveFemale {
+  background: #c43a7a;
+  color: #fff;
+  font-weight: 600;
+}
+
+.genderBtnSmall {
+  padding: 4px 10px;
+  border: none;
+  background: #f0f2f5;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.15s, color 0.15s;
+  color: #555;
+  font-weight: 600;
+}
+
+.genderBtnSmall:hover {
+  background: #e0e5f0;
+}
+
+/* Results grid */
+.resultsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .resultsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Results section */
+.resultsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.sectionTitle {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e8eaf0;
+}
+
+.emptyMsg {
+  color: #999;
+  font-size: 0.9rem;
+  padding: 12px 0;
+}
+
+.teamsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Team card */
+.teamCard {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 1px 6px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.teamCard:hover {
+  box-shadow: 0 3px 12px rgba(0,0,0,0.12);
+}
+
+.teamHeader {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  gap: 12px;
+}
+
+.teamRank {
+  font-size: 1.5rem;
+  min-width: 36px;
+  text-align: center;
+}
+
+.rankNum {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #888;
+}
+
+.teamInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.teamName {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.teamPoints {
+  font-size: 0.85rem;
+  color: #3a6bc4;
+  font-weight: 600;
+}
+
+.toggleBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #888;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: background 0.15s, transform 0.2s;
+}
+
+.toggleBtn:hover {
+  background: #f0f2f5;
+}
+
+.toggleBtnOpen {
+  transform: rotate(180deg);
+}
+
+/* Team details */
+.teamDetails {
+  border-top: 1px solid #f0f2f5;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  background: #fafbfd;
+}
+
+.grupSection {}
+
+.grupLabel {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #888;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+.membersTable {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.88rem;
+}
+
+.membersTable th {
+  text-align: left;
+  padding: 5px 8px;
+  color: #888;
+  font-weight: 600;
+  border-bottom: 1px solid #eee;
+  font-size: 0.78rem;
+}
+
+.membersTable td {
+  padding: 6px 8px;
+  border-bottom: 1px solid #f5f5f5;
+  color: #333;
+}
+
+.membersTable tr:last-child td {
+  border-bottom: none;
+}
+
+.usedRow {
+  background: #f0faf0;
+}
+
+.unusedRow {
+  opacity: 0.55;
+}
+
+.usedCell {
+  text-align: center;
+}
+
+.checkmark {
+  color: #27ae60;
+  font-weight: 700;
+}
+
+.cross {
+  color: #ccc;
+}
