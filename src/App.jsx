@@ -2,6 +2,169 @@ import { useState, useCallback } from 'react'
 import { parseXlsFile, getUniqueGroups, computeTeamResults } from './parseXls'
 import styles from './App.module.css'
 
+function formatDate(date) {
+  const d = new Date(date)
+  const day = d.getDate()
+  const monthNames = ['січня','лютого','березня','квітня','травня','червня','липня','серпня','вересня','жовтня','листопада','грудня']
+  const month = monthNames[d.getMonth()]
+  const year = d.getFullYear()
+  return `${day} ${month} ${year}р.`
+}
+
+
+function todayISO() {
+  const d = new Date()
+  return d.toISOString().slice(0, 10)
+}
+
+function PdfModal({ results, onClose }) {
+  const [title, setTitle] = useState('Пліч-о-пліч всеукраїнські шкільні ліги" зі спортивного орієнтування серед учнів та учениць закладів загальної середньої освіти у 2025-2026 навчальному році під гаслом "РАЗОМ ПЕРЕМОЖЕМО"')
+  const [date, setDate] = useState(todayISO())
+  const [location, setLocation] = useState('м. Одеса')
+  const [judge, setJudge] = useState('Катерина Колесник')
+  const [secretary, setSecretary] = useState('Сергій Стоян')
+
+  const handlePrint = () => {
+    const dateLong = formatDate(date)
+
+    const renderSection = (sectionTitle, teams) => {
+      if (!teams || teams.length === 0) return ''
+      const rows = teams.map((team, i) => `
+        <tr>
+          <td class="num">${i + 1}</td>
+          <td class="teamname">${team.name}</td>
+          <td class="pts">${Math.round(team.totalPoints)}</td>
+          <td class="place">${i + 1}</td>
+        </tr>`).join('')
+      return `
+        <div class="section-title">${sectionTitle}</div>
+        <table>
+          <thead>
+            <tr>
+              <th class="num">№ п/п</th>
+              <th class="teamname">Команда</th>
+              <th class="pts">очки</th>
+              <th class="place">місце</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>`
+    }
+
+    const html = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Протокол</title>
+<style>
+  @page { size: A4 portrait; margin: 25mm 30mm 25mm 30mm; }
+  * { box-sizing: border-box; }
+  body { font-family: Arial, sans-serif; font-size: 11pt; color: #000; margin: 0; padding: 0; }
+  .page { padding: 15mm 20mm; }
+  .competition-title { text-align: center; font-size: 9pt; font-weight: bold; margin-bottom: 10pt; }
+  .main-title { text-align: center; font-size: 15pt; font-weight: bold; letter-spacing: 1px; margin-bottom: 2pt; }
+  .sub-title { text-align: center; font-size: 13pt; font-weight: bold; margin-bottom: 2pt; }
+  .sport-title { text-align: center; font-size: 11pt; margin-bottom: 4pt; }
+  .date-line { text-align: center; font-size: 11pt; margin-bottom: 20pt; }
+  .section-title { text-align: center; font-size: 12pt; font-weight: bold; text-decoration: underline; margin: 20pt 0 8pt; }
+  table { width: 100%; border-collapse: collapse; margin-bottom: 10pt; }
+  th { font-size: 10pt; font-weight: bold; padding: 4pt 6pt; border-bottom: 1px solid #000; text-align: center; }
+  td { font-size: 10pt; padding: 3pt 6pt; border-bottom: 1px solid #ccc; }
+  th.teamname, td.teamname { text-align: left; }
+  .num { width: 40pt; text-align: center; }
+  .pts { width: 55pt; text-align: center; }
+  .place { width: 45pt; text-align: center; }
+  .signatures { margin-top: 40pt; }
+  .sig-row { display: flex; justify-content: space-between; margin-bottom: 16pt; font-size: 11pt; }
+  .sig-label { min-width: 200pt; }
+  .sig-name { }
+  .footer { position: fixed; bottom: 10mm; left: 20mm; right: 20mm; display: flex; justify-content: space-between; font-size: 8pt; color: #555; border-top: 1px solid #ccc; padding-top: 4pt; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="competition-title">${title}</div>
+<div class="main-title">ПІДСУМКОВИЙ&nbsp; ПРОТОКОЛ</div>
+<div class="sub-title">ЗАГАЛЬНОКОМАНДНИХ РЕЗУЛЬТАТІВ ЗМАГАНЬ</div>
+<div class="sport-title">зі спортивного орієнтування</div>
+<div class="date-line">${dateLong}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Місце проведення: ${location}</div>
+
+${renderSection('Жінки', results.female)}
+${renderSection('Чоловіки', results.male)}
+
+<div class="signatures">
+  <div class="sig-row"><span class="sig-label">Головний суддя</span><span class="sig-name">${judge}</span></div>
+  <div class="sig-row"><span class="sig-label">Головний секретар</span><span class="sig-name">${secretary}</span></div>
+</div>
+</div>
+</body>
+</html>`
+
+    const win = window.open('', '_blank')
+    win.document.write(html)
+    win.document.close()
+    win.focus()
+    win.print()
+  }
+
+  return (
+    <div className={styles.modalOverlay}>
+      <div className={styles.modal} onClick={e => e.stopPropagation()}>
+        <h2 className={styles.modalTitle}>Експорт у PDF</h2>
+        <div className={styles.modalField}>
+          <label>Назва змагань</label>
+          <textarea
+            className={styles.modalTextarea}
+            value={title}
+            onChange={e => setTitle(e.target.value)}
+            rows={4}
+          />
+        </div>
+        <div className={styles.modalField}>
+          <label>Дата</label>
+          <input
+            type="date"
+            className={styles.modalInput}
+            value={date}
+            onChange={e => setDate(e.target.value)}
+          />
+        </div>
+        <div className={styles.modalField}>
+          <label>Місце проведення</label>
+          <input
+            type="text"
+            className={styles.modalInput}
+            value={location}
+            onChange={e => setLocation(e.target.value)}
+          />
+        </div>
+        <div className={styles.modalField}>
+          <label>Головний суддя</label>
+          <input
+            type="text"
+            className={styles.modalInput}
+            value={judge}
+            onChange={e => setJudge(e.target.value)}
+          />
+        </div>
+        <div className={styles.modalField}>
+          <label>Головний секретар</label>
+          <input
+            type="text"
+            className={styles.modalInput}
+            value={secretary}
+            onChange={e => setSecretary(e.target.value)}
+          />
+        </div>
+        <div className={styles.modalActions}>
+          <button className={styles.btnSecondary} onClick={onClose}>Скасувати</button>
+          <button className={styles.btnPrimary} onClick={handlePrint}>Друк / Зберегти PDF</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function FileUpload({ onFile }) {
   const [dragging, setDragging] = useState(false)
 
@@ -205,6 +368,7 @@ export default function App() {
   const [groups, setGroups] = useState([])
   const [groupGenders, setGroupGenders] = useState({})
   const [fileName, setFileName] = useState('')
+  const [showPdfModal, setShowPdfModal] = useState(false)
 
   const handleFile = async (file) => {
     setError(null)
@@ -251,6 +415,9 @@ export default function App() {
             <span className={styles.participantCount}>
               {participants.length} учасників з командами
             </span>
+            <button className={styles.btnExport} onClick={() => setShowPdfModal(true)}>
+              Експорт PDF
+            </button>
           </div>
 
           <GroupsList groups={groups} groupGenders={groupGenders} onChange={handleGenderChange} />
@@ -268,6 +435,9 @@ export default function App() {
             />
           </div>
         </>
+      )}
+      {showPdfModal && results && (
+        <PdfModal results={results} onClose={() => setShowPdfModal(false)} />
       )}
     </div>
   )
