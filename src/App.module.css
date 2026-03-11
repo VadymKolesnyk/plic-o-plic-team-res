@@ -45,8 +45,8 @@
 }
 
 .dropzoneIcon {
-  font-size: 3rem;
   margin-bottom: 12px;
+  line-height: 1;
 }
 
 .dropzoneText {
@@ -78,7 +78,9 @@
 }
 
 .fileIcon {
-  font-size: 1.2rem;
+  display: inline-block;
+  vertical-align: middle;
+  line-height: 1;
 }
 
 .participantCount {
@@ -134,7 +136,25 @@
 }
 
 .groupGenderIcon {
-  font-size: 1rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  line-height: 18px;
+  border-radius: 50%;
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.groupGenderIconMale {
+  background: #3b82f6;
+  color: #fff;
+}
+
+.groupGenderIconFemale {
+  background: #ec4899;
+  color: #fff;
 }
 
 .groupName {
@@ -279,6 +299,18 @@
   font-size: 1rem;
   font-weight: 700;
   color: #888;
+}
+
+.medal1 {
+  color: #b8860b;
+}
+
+.medal2 {
+  color: #707070;
+}
+
+.medal3 {
+  color: #8b4513;
 }
 
 .teamInfo {

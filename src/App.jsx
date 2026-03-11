@@ -191,7 +191,11 @@ function FileUpload({ onFile }) {
       onDrop={handleDrop}
       onClick={() => document.getElementById('fileInput').click()}
     >
-      <div className={styles.dropzoneIcon}>📂</div>
+      <div className={styles.dropzoneIcon}>
+        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#888" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+        </svg>
+      </div>
       <p className={styles.dropzoneText}>Перетягніть XLS/XLSX файл сюди або натисніть для вибору</p>
       <input
         id="fileInput"
@@ -249,7 +253,7 @@ function GroupsList({ groups, groupGenders, onChange }) {
               key={g.name}
               className={`${styles.groupItem} ${current === 'male' ? styles.groupItemMale : styles.groupItemFemale}`}
             >
-              <span className={styles.groupGenderIcon}>{current === 'male' ? '👨' : '👩'}</span>
+              <span className={`${styles.groupGenderIcon} ${current === 'male' ? styles.groupGenderIconMale : styles.groupGenderIconFemale}`}>{current === 'male' ? 'Ч' : 'Ж'}</span>
               <span className={styles.groupName}>{g.name}</span>
               <div className={styles.genderToggle}>
                 <button
@@ -282,13 +286,15 @@ function TeamCard({ team, rank }) {
     byGrup[c.grup].push(c)
   }
 
-  const medals = ['🥇', '🥈', '🥉']
+  const medalStyles = [styles.medal1, styles.medal2, styles.medal3]
 
   return (
     <div className={styles.teamCard}>
       <div className={styles.teamHeader}>
         <div className={styles.teamRank}>
-          {rank <= 3 ? medals[rank - 1] : <span className={styles.rankNum}>{rank}</span>}
+          {rank <= 3
+            ? <span className={`${styles.rankNum} ${medalStyles[rank - 1]}`}>{rank}</span>
+            : <span className={styles.rankNum}>{rank}</span>}
         </div>
         <div className={styles.teamInfo}>
           <span className={styles.teamName}>{team.name}</span>
@@ -410,7 +416,15 @@ export default function App() {
       {participants && (
         <>
           <div className={styles.fileInfo}>
-            <span className={styles.fileIcon}>📄</span>
+            <span className={styles.fileIcon}>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+            </span>
             <span>{fileName}</span>
             <span className={styles.participantCount}>
               {participants.length} учасників з командами
@@ -426,12 +440,12 @@ export default function App() {
             <ResultsSection
               title="Чоловіки"
               teams={results.male}
-              icon="👨"
+              icon={null}
             />
             <ResultsSection
               title="Жінки"
               teams={results.female}
-              icon="👩"
+              icon={null}
             />
           </div>
         </>
